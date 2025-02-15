@@ -4,25 +4,25 @@ from database import get_db
 from sqlalchemy.orm import Session
 from schemas.empresa_schema import EmpresaBase, Empresa
 
-router = APIRouter()
+router = APIRouter(tags=["Empresas"], prefix='/empresas')
 
-@router.post("/empresas")
+@router.post("/")
 async def create_empresa_route(empresa: EmpresaBase, db: Session = Depends(get_db)):
     return create_empresa(db=db, empresa=empresa)
 
-@router.get("/empresas")
+@router.get("/")
 async def get_empresas_route(db: Session = Depends(get_db)):
     return get_empresas(db=db)
 
-@router.get("/empresas/{empresa_id}")
+@router.get("/{empresa_id}")
 async def get_empresa_route(empresa_id: int, db: Session = Depends(get_db)):
     return get_empresa(db=db, empresa_id=empresa_id)
 
-@router.put("/empresas/{empresa_id}")
+@router.put("/{empresa_id}")
 async def update_empresa_route(empresa_id: int, empresa: EmpresaBase, db: Session = Depends(get_db)):
     return update_empresa(db=db, empresa_id=empresa_id, empresa=empresa)
 
-@router.delete("/empresas/{empresa_id}")
+@router.delete("/{empresa_id}")
 async def delete_empresa_route(empresa_id: int, db: Session = Depends(get_db)):
     return delete_empresa(db=db, empresa_id=empresa_id)
 
