@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from models.empresa_model import Empresa
 
@@ -12,7 +13,10 @@ def get_empresas(db: Session):
     return db.query(Empresa).all()
 
 def get_empresa(db: Session, empresa_id: int):
-    return db.query(Empresa).filter(Empresa.id == empresa_id).first()
+    empresa = db.query(Empresa).filter(Empresa.id == empresa_id).first()
+    if not empresa:
+        raise HTTPException(status_code=404, detail="Empresa não encontrada")
+    return empresa
 
 def update_empresa(db: Session, empresa_id: int, empresa: Empresa):
     db.query(Empresa).filter(Empresa.id == empresa_id).update(empresa.dict())
@@ -20,6 +24,10 @@ def update_empresa(db: Session, empresa_id: int, empresa: Empresa):
     return db.query(Empresa).filter(Empresa.id == empresa_id).first()
 
 def delete_empresa(db: Session, empresa_id: int):
-    db.query(Empresa).filter(Empresa.id == empresa_id).delete()
+    empresa = db.query(Empresa).filter(Empresa.id == empresa_id).first()
+    if not empresa:
+        return None
+    
+    db.delete(empresa)
     db.commit()
-    return "Empresa removida"
+    return {"message": "Empresa deletada com sucesso"}
