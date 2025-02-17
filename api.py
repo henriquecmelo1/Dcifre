@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from routers.empresa_router import router as router_e
-from routers.obrigacao_router import router as router_o
+from empresa_router import router as router_e
+from obrigacao_router import router as router_o
 from database import Base, engine
 
 Base.metadata.create_all(bind=engine)

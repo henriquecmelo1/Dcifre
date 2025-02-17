@@ -1,9 +1,9 @@
 import pytest
 from fastapi.testclient import TestClient
 from api import app  # Importa a aplicação FastAPI
-from models.obrigacao_model import Obrigacao  # Modelo da tabela Obrigacao
+from obrigacao_model import Obrigacao  # Modelo da tabela Obrigacao
 from database_test import db  # Sessão de banco de dados de teste
-from models.empresa_model import Empresa  
+from empresa_model import Empresa  
 
 
 @pytest.fixture(scope="module")

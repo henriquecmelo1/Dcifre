@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from models.empresa_model import Empresa
+from empresa_model import Empresa
 
 def create_empresa(db: Session, empresa: Empresa):
     db_empresa = Empresa(**empresa.dict())

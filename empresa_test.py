@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from api import app  # A aplicação FastAPI
-from models.empresa_model import Empresa  # Modelo da tabela Empresa
+from empresa_model import Empresa  # Modelo da tabela Empresa
 from database_test import db  # Sessão de banco de dados de teste
 
 @pytest.fixture(scope="module")

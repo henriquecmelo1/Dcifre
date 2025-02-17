@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models.obrigacao_model import Obrigacao
+from obrigacao_model import Obrigacao
 from fastapi import HTTPException
 
 def create_obrigacao(db: Session, obrigacao: Obrigacao):
