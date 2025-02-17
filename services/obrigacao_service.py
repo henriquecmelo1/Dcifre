@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from models.obrigacao_model import Obrigacao
+from fastapi import HTTPException
 
 def create_obrigacao(db: Session, obrigacao: Obrigacao):
     db_obrigacao = Obrigacao(**obrigacao.dict())
@@ -12,7 +13,10 @@ def get_obrigacoes(db: Session):
     return db.query(Obrigacao).all()
 
 def get_obrigacao(db: Session, obrigacao_id: int):
-    return db.query(Obrigacao).filter(Obrigacao.id == obrigacao_id).first()
+    obrigacao =  db.query(Obrigacao).filter(Obrigacao.id == obrigacao_id).first()
+    if not obrigacao:
+        raise HTTPException(status_code=404, detail="Obrigação não encontrada")
+    return obrigacao
 
 def update_obrigacao(db: Session, obrigacao_id: int, obrigacao: Obrigacao):
     db.query(Obrigacao).filter(Obrigacao.id == obrigacao_id).update(obrigacao.dict())
@@ -20,6 +24,10 @@ def update_obrigacao(db: Session, obrigacao_id: int, obrigacao: Obrigacao):
     return db.query(Obrigacao).filter(Obrigacao.id == obrigacao_id).first()
 
 def delete_obrigacao(db: Session, obrigacao_id: int):
-    db.query(Obrigacao).filter(Obrigacao.id == obrigacao_id).delete()
+    obrigacao = db.query(Obrigacao).filter(Obrigacao.id == obrigacao_id).first()
+    if not obrigacao:
+        return None
+    
+    db.delete(obrigacao)
     db.commit()
-    return "Obrigação removida"
+    return {"message": "Obrigação deletada com sucesso"}
